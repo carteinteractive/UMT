@@ -51,14 +51,14 @@
   </div>
 
   <!-- Affiche la première carte au démarrage -->
-  <iframe id="mapFrame" src="index.html"></iframe>
+  <iframe id="mapFrame" src="carte1.html"></iframe>
 
   <script>
     function showMap(version) {
       const frame = document.getElementById('mapFrame');
       frame.style.opacity = 0; // effet fondu
       setTimeout(() => {
-        frame.src = version === 'v1' ? 'index.html' : 'index2.html';
+        frame.src = version === 'v1' ? 'carte1.html' : 'carte2.html';
         frame.onload = () => { frame.style.opacity = 1; };
       }, 300);
     }

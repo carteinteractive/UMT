@@ -51,14 +51,14 @@
   </div>
 
   <!-- Affiche la première carte au démarrage -->
-  <iframe id="mapFrame" src="Carte_actuelle/UMT_2025.html"></iframe>
+  <iframe id="mapFrame" src="Carte_actuelle/index.html"></iframe>
 
   <script>
     function showMap(version) {
       const frame = document.getElementById('mapFrame');
       frame.style.opacity = 0; // effet fondu
       setTimeout(() => {
-        frame.src = version === 'v1' ? 'Carte_actuelle/UMT_2025.html' : 'Carte_historique/UMT_historique.html';
+        frame.src = version === 'v1' ? 'Carte_actuelle/index.html' : 'Carte_historique/index.html';
         frame.onload = () => { frame.style.opacity = 1; };
       }, 300);
     }

@@ -55,6 +55,41 @@
     #btnHistorique {
       background-color: #ff8c00; /* Orange */
     }
+
+    /* --- Légende --- */
+    #legende {
+      position: absolute;
+      right: 20px;
+      bottom: 80px; /* au-dessus du menu */
+      background: rgba(255,255,255,0.95);
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      padding: 10px 15px;
+      font-size: 14px;
+      text-align: left;
+      z-index: 20;
+      line-height: 1.6em;
+    }
+
+    .legende-titre {
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .symbole {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      display: inline-block;
+      border: 1px solid #888;
+    }
   </style>
 </head>
 
@@ -63,6 +98,9 @@
   <!-- Iframe affichant la carte -->
   <iframe id="mapFrame" src="Carte_actuelle/index.html"></iframe>
 
+  <!-- Légende dynamique -->
+  <div id="legende"></div>
+
   <!-- Menu placé en bas -->
   <div id="menu">
     <button id="btnActuelle" onclick="showMap('v1')">Carte actuelle</button>
@@ -70,13 +108,39 @@
   </div>
 
   <script>
+    const legendeDiv = document.getElementById('legende');
+
+    // --- Contenu des légendes ---
+    const legendes = {
+      actuelle: `
+        <div class="legende-titre">Légende - Carte actuelle</div>
+        <div class="item"><span class="symbole" style="background:#2b7cff;"></span> Zone en activité</div>
+        <div class="item"><span class="symbole" style="background:#6cc24a;"></span> Zone inactive</div>
+      `,
+      historique: `
+        <div class="legende-titre">Légende - Carte historique</div>
+        <div class="item"><span class="symbole" style="background:#ff8c00;"></span> Ancienne zone urbaine</div>
+        <div class="item"><span class="symbole" style="background:#ffd700;"></span> Zone agricole</div>
+        <div class="item"><span class="symbole" style="background:#8b4513;"></span> Forêt ancienne</div>
+        <div class="item"><span class="symbole" style="background:#4682b4;"></span> Zone humide</div>
+      `
+    };
+
+    // Affiche la légende actuelle au chargement
+    legendeDiv.innerHTML = legendes.actuelle;
+
     function showMap(version) {
       const frame = document.getElementById('mapFrame');
       frame.style.opacity = 0; // effet fondu
+
       setTimeout(() => {
-        frame.src = version === 'v1'
-          ? 'Carte_actuelle/index.html'
-          : 'Carte_historique/index.html';
+        if (version === 'v1') {
+          frame.src = 'Carte_actuelle/index.html';
+          legendeDiv.innerHTML = legendes.actuelle;
+        } else {
+          frame.src = 'Carte_historique/index.html';
+          legendeDiv.innerHTML = legendes.historique;
+        }
         frame.onload = () => { frame.style.opacity = 1; };
       }, 300);
     }
